@@ -18,14 +18,6 @@ jobs:
       with:
         workflow: build-site.yml
         workflow_conclusion: success
-          
-    - name: Copy files
-      uses: ulaval/azure-blob-copy-action@v1
-      with:
-        action: upload
-        connection_string: ${{ secrets.AZURE_CREDENTIALS }}
-        container_name: $web
-        local_directory: production-files
      
     - uses: bacongobbler/azure-blob-storage-upload@main
       with:
@@ -34,7 +26,3 @@ jobs:
           connection_string: ${{ secrets.AZURE_CREDENTIALS }}
           # WARNING: this will overwrite existing blobs in your blob storage
           overwrite: 'true'
-    
-    - name: Azure logout
-      run: |
-            az logout
