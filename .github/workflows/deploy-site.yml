@@ -27,17 +27,13 @@ jobs:
         container_name: $web
         local_directory: production-files
      
-    - name: Azure login
-      uses: azure/login@v1
+    - uses: bacongobbler/azure-blob-storage-upload@main
       with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }} 
-    
-    - name: Upload to Azure blob storage
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
-            az storage blob upload-batch --account-name newstoragetestvansh -d '$web' -s ./production-files
+          source_dir: production-files
+          container_name: $web
+          connection_string: ${{ secrets.ConnectionString }}
+          # WARNING: this will overwrite existing blobs in your blob storage
+          overwrite: 'true'
     
     - name: Azure logout
       run: |
