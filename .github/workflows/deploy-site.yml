@@ -19,10 +19,12 @@ jobs:
         workflow: build-site.yml
         workflow_conclusion: success
     
-    - name: Azure login
-      uses: azure/login@v1
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Upload to Azure Blob Storage
+      uses: bacongobbler/azure-blob-storage-upload@v1.0.0
+      with: 
+          source_dir: production-files #gatsby build generates this file after build
+          container_name: $web
+          connection_string: ${{ secrets.AZURE_CREDENTIALS }}
     
     - name: Upload to Azure blob storage
       uses: azure/CLI@v1
