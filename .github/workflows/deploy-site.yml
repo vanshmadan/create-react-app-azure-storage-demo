@@ -25,7 +25,12 @@ jobs:
         action: upload
         connection_string: ${{ secrets.AZURE_CREDENTIALS}}
         container_name: $web
-        local_directory: production-files   
+        local_directory: production-files
+     
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }} 
     
     - name: Upload to Azure blob storage
       uses: azure/CLI@v1
